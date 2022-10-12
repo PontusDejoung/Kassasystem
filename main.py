@@ -1,3 +1,6 @@
+from product import Product
+
+
 allGoods = []
 with open("products.txt") as file:
     for line in file:
