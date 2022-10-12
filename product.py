@@ -1,6 +1,3 @@
-
-
-
 class Product:
     def __init__(self,productName:str, price:int,productId:int,productType:str):
         self.__ProductName = productName

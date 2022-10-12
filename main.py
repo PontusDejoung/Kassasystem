@@ -12,6 +12,9 @@ def PrintMenu()->int:
     print("2. Avsluta")
     selectionInMenu = Felhantering((":"),minValue=0,maxValue=2)
     return selectionInMenu
+def NewReceipt(allGoods):
+    receipt = Receipt()
+    receipt.Add("")
 def Felhantering(prompt,minValue:int, maxValue:int)->int:
     while True:
         try:
