@@ -13,8 +13,18 @@ def PrintMenu()->int:
     selectionInMenu = Felhantering((":"),minValue=0,maxValue=2)
     return selectionInMenu
 def NewReceipt(allGoods):
-    receipt = Receipt()
-    receipt.Add("")
+    while True:
+        print("Kassa")
+        datum = 2022-10-16
+        print(f"KVITTO: {datum}")
+        print("Kommandon:")
+        print("<productid> <antal>")
+        print("PAY>")
+        action = input("Kommandon:")
+        if action == "PAY":
+            break
+        receipt = Receipt()
+        receipt.Add("")
 def Felhantering(prompt,minValue:int, maxValue:int)->int:
     while True:
         try:
@@ -31,7 +41,7 @@ while True:
     selection = PrintMenu()
     if selection == 0:
         print("a")
-    if selection == 1:
-        print("Hej")
+    elif selection == 1:
+        NewReceipt(allGoods)
     elif selection == 2:
         break

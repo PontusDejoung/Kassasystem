@@ -3,6 +3,6 @@ class Product:
         self.__ProductName = productName
         self.__Price = price
         self.__ProductId = productId
-        self.ProductType = productType
+        self.__ProductType = productType
     def GetName(self):
         pass
