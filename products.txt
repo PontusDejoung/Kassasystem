@@ -1,0 +1,2 @@
+4237;Bananer;4.50;PerKilo
+1313;Penna;100;PerStyck
