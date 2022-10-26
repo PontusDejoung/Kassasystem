@@ -29,7 +29,7 @@ def splitParts():
             return parts
 def SaveReceiptToFile(findReceiptRow,total,receipt):
     with open("receipts.txt","a") as file:
-        file.write(f"{receipt.GetDate()}\n{findReceiptRow[0]} {findReceiptRow[1]} * {findReceiptRow[2]} = {total}\n")
+        file.write(f"{receipt.GetDate()}\n{findReceiptRow.GetName()} {findReceiptRow.GetCount()} * {findReceiptRow.GetPerPrice()} = {total}\n")
 
 def PrintMenu()->int:
     print("0. Admin")
@@ -46,41 +46,37 @@ def NewReceipt():
         #findReceiptRow = ""
         total = 0
         receipt = Receipt()
+        shoppinglist = []
         while True:
             print("Kassa")
-            print(f"Kvitto {receipt.GetDate()}")
+            #print(f"Kvitto {receipt.GetDate()}")
             print("Kommandon:")
             print("<productid> <antal>")
             print("PAY")
             parts = splitParts()
-            # productid = str(parts[0])
-            # antal = int(parts[1])
-            #findProduct = findProducts(splitParts)
-            # if findProduct == None:
-            #     print("Produkten finns inte, försök igen")
             if parts[0] == "pay":
                 SaveReceiptToFile(findReceiptRow,total,receipt)
                 return
             else:
                 productid = parts[0]
-                antal = int(parts[1])
+                antal = parts[1]
                 findProduct = findProducts(productid)
                 if findProduct == None:
                     print("Produkten finns inte, försök igen")
                 namn = findProduct[1]
                 belopp = findProduct[2]
-                receipt.ADD(namn,antal,belopp)
+                receipt.ADD(namn,int(antal),float(belopp))
                 findReceiptRow = receipt.GetReceiptRows(namn)
                 total = receipt.GetTotalSum()
-                print(f"{findReceiptRow[0]} {findReceiptRow[1]} * {findReceiptRow[2]} = {total}")
-          
-        # elif len(cashierAction) == 2 and findProducts(cashierAction[0]) == True and cashierAction[1].isnumeric():
-        #     returnProducts(cashierAction[0])
-        #     # receipt.ADD(product.GetProductName(),int(cashierAction[1]),1.5)
-        #     receipt.ADD(str(product.GetProductName()),int(cashierAction[1]),float(product.GetPrice()))
-        #     print(f"{product.GetProductName()} {cashierAction[1]} * {product.GetPrice()} = {receipt.GetTotalSum()}")
-        #     print(f"Total:{receipt.GetTotalSum()}")
-        #     print("Tjoho")
+                saveRow = shoppinglist.append(f"")
+            #PrintShopingCart(receipt,findReceiptRow,total)
+            print(f"Kvitto {receipt.GetDate()}\n{findReceiptRow.GetName()} {findReceiptRow.GetCount()} * {findReceiptRow.GetPerPrice()} = {total}\nTotal:{total}")
+            #print(f"Kvitto {receipt.GetDate()}\n{findReceiptRow[0]} {findReceiptRow[1]} * {findReceiptRow[2]} = {total}\nTotal:{total}")
+def PrintShopingCart(receipt,findReceiptRow:list,total):
+        print(f"\nKVITTO: {receipt.GetDate()}")
+        for rad in findReceiptRow:
+            print(f"{rad.GetName()}")
+        print(f"Total:{total}")
 def Felhantering(prompt,minValue:int, maxValue:int)->int:
     while True:
         try:

@@ -36,13 +36,16 @@ class Receipt:
         # loopa igenom self.__ReceiptRows och försöka hitta
         # rec.AddcCount
         #ja -> uspdatera count
+        #receiptRow = ReceiptRow(productName,count,perPrice)
         receiptRow = ReceiptRow(productName,count,perPrice)
         for prduct in self.__ReceiptRows:
             if prduct.GetName() == receiptRow.GetName():
-                receiptRow.AddCount(count)
-                return
+                prduct.AddCount(count)
+                return 
         self.__ReceiptRows.append(receiptRow)
-    def GetReceiptRows(self,productname:str):
-        for x in self.__ReceiptRows:
-            if x.GetName() == productname:
-                return x.GetName(),x.GetCount(),x.GetPerPrice()
+    def GetReceiptRows(self,productname):
+        # for productname in self.__ReceiptRows:
+        #     return productname
+        for product in self.__ReceiptRows:
+            if product.GetName() == productname:
+                return product#product.GetName(),product.GetCount(),product.GetPerPrice()
