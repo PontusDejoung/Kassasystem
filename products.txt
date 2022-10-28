@@ -1,2 +1,4 @@
-4237;Bananer;4.50;PerKilo
-1313;Penna;100;PerStyck
+100;Bananer;10.50;PerKilo
+200;Penna;100;PerStyck
+300;Potatis;4.56;PerKilo
+400;Majs;12.90;PerStyck

@@ -11,11 +11,25 @@ with open("products.txt") as file:
         product = Product(parts[0],parts[1],float(parts[2]),parts[3])
         allGoods.append(product)
 
+def Felhantering(prompt,minValue:int, maxValue:int)->int:
+    while True:
+        try:
+            selection = int(input(prompt))
+            if selection < minValue or selection > maxValue:
+                 print(f"Mata in ett tal mellan {minValue} och {maxValue} tack")
+            else:
+                 break
+        except ValueError:
+             print("Mata in ett tal tack")
+             continue
+    return selection
 
+def Admin():
+    pass
 def findProducts(productid):
     for x in allGoods:
         if x.GetProductId() == productid:
-            return x,x.GetProductName(),x.GetPrice()
+            return x.GetProductName(),x.GetPrice()
     return None
 def splitParts():
     while True:
@@ -26,12 +40,24 @@ def splitParts():
         elif parts[0] == "pay":
             return parts
 def SaveReceiptToFile(findReceiptRow,receipt):
+    receiptNumber = FindReceiptNumber()
     with open("receipts.txt","a") as file:
-        file.write(f"Kvitto {receipt.GetDate()}\n")
+        file.write(f"Kvitto {receiptNumber} {receipt.GetDate()}\n")
         for row in findReceiptRow:
             file.write(f"{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}\n")
-        file.write(f"Total:{receipt.GetTotalSum()}")
-
+        file.write(f"Total:{receipt.GetTotalSum()}\n\n")
+def FindReceiptNumber():
+    with open("receiptnumber.txt", "r") as file:
+        number = file.readline()
+        newNumber = int(number) + 1
+        with open("receiptnumber.txt", "w") as file:
+            file.write(str(newNumber))
+    return number
+def PrintShopingCart(receipt,findReceiptRow):
+        print(f"Kvitto {receipt.GetDate()}")
+        for row in findReceiptRow:
+            print(f"{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}")
+        print(f"Total:{receipt.GetTotalSum()}")
 def PrintMenu()->int:
     print("0. Admin")
     print("1. Ny kund")
@@ -40,14 +66,10 @@ def PrintMenu()->int:
     return selectionInMenu
 def NewReceipt():
     while True:
-        productid = 0
-        antal = 0
-        namn = ""
-        belopp = 0
-        total = 0
         receipt = Receipt()
-        shoppinglist = []
         while True:
+            namn = ""
+            belopp = 0
             print("Kassa")
             print("Kommandon:")
             print("<productid> <antal>")
@@ -62,32 +84,16 @@ def NewReceipt():
                 findProduct = findProducts(productid)
                 if findProduct == None:
                     print("Produkten finns inte, försök igen")
-                namn = findProduct[1]
-                belopp = findProduct[2]
+                    continue
+                namn = findProduct[0]
+                belopp = findProduct[1]
                 receipt.ADD(namn,int(antal),float(belopp))
                 findReceiptRow = receipt.GetReceiptRows()
                 PrintShopingCart(receipt,findReceiptRow)
-def PrintShopingCart(receipt,findReceiptRow):
-        print(f"Kvitto {receipt.GetDate()}")
-        for row in findReceiptRow:
-            print(f"{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}")
-        print(f"Total:{receipt.GetTotalSum()}")
-def Felhantering(prompt,minValue:int, maxValue:int)->int:
-    while True:
-        try:
-            selection = int(input(prompt))
-            if selection < minValue or selection > maxValue:
-                 print(f"Mata in ett tal mellan {minValue} och {maxValue} tack")
-            else:
-                 break
-        except ValueError:
-             print("Mata in ett tal tack")
-             continue
-    return selection
 while True:
     selection = PrintMenu()
     if selection == 0:
-        print("a")
+        Admin()
     elif selection == 1:
         NewReceipt()
     elif selection == 2:
