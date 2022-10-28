@@ -1,5 +1,3 @@
-
-from argparse import Action
 from product import Product
 from receipt import Receipt, ReceiptRow
 from datetime import datetime
@@ -27,9 +25,12 @@ def splitParts():
             return parts[0],parts[1]
         elif parts[0] == "pay":
             return parts
-def SaveReceiptToFile(findReceiptRow,total,receipt):
+def SaveReceiptToFile(findReceiptRow,receipt):
     with open("receipts.txt","a") as file:
-        file.write(f"{receipt.GetDate()}\n{findReceiptRow.GetName()} {findReceiptRow.GetCount()} * {findReceiptRow.GetPerPrice()} = {total}\n")
+        file.write(f"Kvitto {receipt.GetDate()}\n")
+        for row in findReceiptRow:
+            file.write(f"{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}\n")
+        file.write(f"Total:{receipt.GetTotalSum()}")
 
 def PrintMenu()->int:
     print("0. Admin")
@@ -43,19 +44,17 @@ def NewReceipt():
         antal = 0
         namn = ""
         belopp = 0
-        #findReceiptRow = ""
         total = 0
         receipt = Receipt()
         shoppinglist = []
         while True:
             print("Kassa")
-            #print(f"Kvitto {receipt.GetDate()}")
             print("Kommandon:")
             print("<productid> <antal>")
             print("PAY")
             parts = splitParts()
             if parts[0] == "pay":
-                SaveReceiptToFile(findReceiptRow,total,receipt)
+                SaveReceiptToFile(findReceiptRow,receipt)
                 return
             else:
                 productid = parts[0]
@@ -66,17 +65,13 @@ def NewReceipt():
                 namn = findProduct[1]
                 belopp = findProduct[2]
                 receipt.ADD(namn,int(antal),float(belopp))
-                findReceiptRow = receipt.GetReceiptRows(namn)
-                total = receipt.GetTotalSum()
-                saveRow = shoppinglist.append(f"")
-            #PrintShopingCart(receipt,findReceiptRow,total)
-            print(f"Kvitto {receipt.GetDate()}\n{findReceiptRow.GetName()} {findReceiptRow.GetCount()} * {findReceiptRow.GetPerPrice()} = {total}\nTotal:{total}")
-            #print(f"Kvitto {receipt.GetDate()}\n{findReceiptRow[0]} {findReceiptRow[1]} * {findReceiptRow[2]} = {total}\nTotal:{total}")
-def PrintShopingCart(receipt,findReceiptRow:list,total):
-        print(f"\nKVITTO: {receipt.GetDate()}")
-        for rad in findReceiptRow:
-            print(f"{rad.GetName()}")
-        print(f"Total:{total}")
+                findReceiptRow = receipt.GetReceiptRows()
+                PrintShopingCart(receipt,findReceiptRow)
+def PrintShopingCart(receipt,findReceiptRow):
+        print(f"Kvitto {receipt.GetDate()}")
+        for row in findReceiptRow:
+            print(f"{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}")
+        print(f"Total:{receipt.GetTotalSum()}")
 def Felhantering(prompt,minValue:int, maxValue:int)->int:
     while True:
         try:

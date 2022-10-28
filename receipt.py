@@ -28,7 +28,7 @@ class Receipt:
         sum = 0
         for row in self.__ReceiptRows:
             sum = sum + row.GetTotal()
-            return sum
+        return sum
     def GetDate(self):
         return self.__Datum
     def ADD(self,productName:str, count:int, perPrice:float):
@@ -43,9 +43,5 @@ class Receipt:
                 prduct.AddCount(count)
                 return 
         self.__ReceiptRows.append(receiptRow)
-    def GetReceiptRows(self,productname):
-        # for productname in self.__ReceiptRows:
-        #     return productname
-        for product in self.__ReceiptRows:
-            if product.GetName() == productname:
-                return product#product.GetName(),product.GetCount(),product.GetPerPrice()
+    def GetReceiptRows(self):
+            return self.__ReceiptRows
