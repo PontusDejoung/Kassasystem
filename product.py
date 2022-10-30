@@ -14,6 +14,8 @@ class Product:
         return self.__Price
     def SetNewName(self,newName:str):
         self.__ProductName = newName
+    def SetNewPrice(self,newPrice:float):
+        self.__Price = newPrice
     def GetCampaignPrice(self):
         return self.__ProductCampaignPrice
     def GetCampaignDate(self):

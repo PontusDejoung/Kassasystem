@@ -24,7 +24,7 @@ def Felhantering(prompt,minValue:int, maxValue:int)->int:
 
 def AdminMenu():
     print(f"1. Sök kvitton\n2. Ändra Namn på produkt\n3. Ändra Pris på produkt\n4. Skapa kampanj\n5. Logga ut från Admin meny")
-    selectionInAdminMenu = Felhantering((":"),minValue=1,maxValue=4)
+    selectionInAdminMenu = Felhantering((":"),minValue=1,maxValue=5)
     return selectionInAdminMenu
 def AdminMenuSelection():
     while True:
@@ -48,8 +48,12 @@ def createCampaign(allGoods):
         if findThisProduct == None:
             print("Produkten finns inte förösk igen")
             continue
-        newPrice = float(input("Sätt nytt pris"))
-        campaignDates = CreateCamapignDates()
+        try:
+            newPrice = float(input("Sätt nytt pris"))
+            campaignDates = CreateCamapignDates()
+        except ValueError:
+            print("Pris kan bara vara siffror")
+            continue
         with open("products.txt", "r") as produktfil:
             fileCampaignPrice = produktfil.read()
             fileCampaignPrice = fileCampaignPrice.replace(findThisProduct[3], str(newPrice))
@@ -59,7 +63,7 @@ def createCampaign(allGoods):
             fileCampaignDate = produktfil.read()
             fileCampaignDate = fileCampaignDate.replace(str(findThisProduct[2]), f"{campaignDates[0]},{campaignDates[1]}")
         with open("products.txt", "w") as produktfil:
-             produktfil.write(fileCampaignDate)
+            produktfil.write(fileCampaignDate)
         for produkt in allGoods:
             if produkt.GetProductId() == product:
                 produkt.SetCampaignPrice(str(newPrice))
@@ -73,18 +77,15 @@ def CreateCamapignDates():
         if CheckIfDate(campaignStartDate) == True and CheckIfDate(campaignEndDate) == True:
             return campaignStartDate, campaignEndDate
         else:
-            print("Skriv i datumformate YYYY-MM-DD")
+            print("Skriv i datumformatet YYYY-MM-DD")
             continue
 def CheckIfDate(dateStr):
-    #dateStr = dateStr
     format = "%Y-%m-%d"
     try:
         datetime.strptime(dateStr, format)
         return True
     except ValueError:
         return False
-
-
 def receiptSearch():
     while True:
         try:
@@ -93,29 +94,55 @@ def receiptSearch():
         except ValueError:
             print("Fel datum format, formatet ska vara (yyyymmdd)")
             continue
-        with open("receipts.txt","r") as file:
+        fileInputDate = datetime.strftime(time,"%Y%m%d")
+        with open(f"RECEIPT_{fileInputDate}.txt","r") as file:
             for lines in file:
                 if lines.startswith("Kvitto:"):
                     parts = lines.split(" ")
                     splitparts = str(parts[2])
-                    split = datetime.strptime(splitparts,"%Y-%m-%d-%H:%M:%S").date()
+                    splitparts = parts[2].split("\n")
+                    split = datetime.strptime(splitparts[0],"%Y-%m-%d-%H:%M:%S").date()
                     start = split
                     currentdate = time.date()
                     if start != currentdate:
                         print("Hittade inget kvitto på det datumet")
                         return
+                    remove1 = lines.replace("\n"," ")
+                    print(remove1)
+                if lines.startswith("Total:"):
                     print(lines)
-                    if lines.startswith("Total:"):
-                        print(lines)
         fullreceipt = input("Vill du se fullständigt kvitto från alla den dagen? Ja/Nej: ").lower()
         if fullreceipt[0] == "j":
-            with open("receipts.txt","r") as file:
+            with open(f"RECEIPT_{fileInputDate}.txt","r") as file:
                 for lines in file:
-                    print(lines)
+                    remove2 = lines.replace("\n"," ")
+                    print(remove2)
         input("Tryck valfri tangent för att återgå till Admin menyn")
         return
 def ChangePriceOnProducts():
-    pass
+    while True:
+        for x in allGoods:
+            print(x.GetProductId(), x.GetProductName(), x.GetPrice())
+        product = input("Skriv in produkt id på produkt du vill skapa kamapanj på")
+        findProduct = findProducts(product)
+        if findProduct == None:
+            print("Produkten finns inte förösk igen")
+            continue
+        try:
+            newPrice = float(input("Sätt nytt pris"))
+        except ValueError:
+            print("Pris måste vara siffror")
+            continue
+        with open("products.txt", "r") as produktfil:
+            fileNewPrice = produktfil.read()
+            fileNewPrice = fileNewPrice.replace(str(findProduct[1]), str(newPrice))
+        with open("products.txt", "w") as produktfil:
+            produktfil.write(fileNewPrice)
+        for produkt in allGoods:
+            if produkt.GetProductId() == product:
+                produkt.SetNewPrice(str(newPrice))
+                print("Priset är ändrat")
+                return
 def ChangeNameOnProducts(allGoods):
     while True:
         for x in allGoods:
@@ -158,11 +185,13 @@ def splitParts():
             return parts
 def SaveReceiptToFile(findReceiptRow,receipt):
     receiptNumber = FindReceiptNumber()
-    with open("receipts.txt","a") as file:
-        file.write(f"Kvitto: {receiptNumber} {receipt.GetDate()}")
+    dateNow = datetime.now()
+    dateNow = dateNow.strftime("%Y%m%d")
+    with open(f"RECEIPT_{dateNow}.txt", "a") as file:
+        file.write(f"Kvitto: {receiptNumber} {receipt.GetDate()}\n")
         for row in findReceiptRow:
-            file.write(f" \n{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}")
-        file.write(f"\nTotal:{receipt.GetTotalSum()}\n\n")
+            file.write(f"{row.GetName()} {row.GetCount()} * {row.GetPerPrice()} = {row.GetTotal()}\n")
+        file.write(f"Total:{receipt.GetTotalSum()}\n")
 def FindReceiptNumber():
     with open("receiptnumber.txt", "r") as file:
         number = file.readline()
