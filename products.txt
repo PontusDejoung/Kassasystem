@@ -1,4 +1,2 @@
-100;Bananer;10.50;PerKilo
-200;Penna;100;PerStyck
-300;Potatis;4.56;PerKilo
-400;Majs;12.90;PerStyck
+100;Bananer;10.5;PerKilo;2022-10-28,2022-10-29;6.9
+200;Melon;19.5;PerStyck;2022-10-30,2022-11-01;16.5
