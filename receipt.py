@@ -1,10 +1,7 @@
-
 from datetime import datetime
 from product import Product
-
-
 class ReceiptRow:
-    def __init__(self,productName, count, perPrice,campaignDate,campaignprice,productType):
+    def __init__(self,productName:str, count:int, perPrice:float,campaignDate:str,campaignprice:float,productType:str):
         self.__ProductName = productName
         self.__Count = count
         self.__PerPrice = perPrice
@@ -29,7 +26,6 @@ class ReceiptRow:
         return self.__CamapignPrice
     def GetTotalCampaign(self):
         return self.__Count * self.__CamapignPrice
-
 class Receipt:
     def __init__(self):
         self.__Datum = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
@@ -42,22 +38,21 @@ class Receipt:
     def GetDate(self):
         return self.__Datum
     def ADD(self,productName:str, count:int, perPrice:float,campaignDate:str,campaignPrice:float,productType:str):
-
         receiptRow = ReceiptRow(productName,count,perPrice,campaignDate,campaignPrice,productType)
         for prduct in self.__ReceiptRows:
             if prduct.GetName() == receiptRow.GetName():
                 prduct.AddCount(count)
                 return
         getDate = campaignDate
-        parts = getDate.split(",")
-        start = datetime.strptime(parts[0],"%Y-%m-%d").date()
-        end = datetime.strptime(parts[1],"%Y-%m-%d").date()
-        currentDate = datetime.now().date()
-        if start <= currentDate <= end:
-            receiptRow = ReceiptRow(productName,count,campaignPrice,campaignDate,perPrice,productType)
-            self.__ReceiptRows.append(receiptRow)
-            return
-            
+        if getDate != " ":
+            parts = getDate.split(",")
+            start = datetime.strptime(parts[0],"%Y-%m-%d").date()
+            end = datetime.strptime(parts[1],"%Y-%m-%d").date()
+            currentDate = datetime.now().date()
+            if start <= currentDate <= end:
+                receiptRow = ReceiptRow(productName,count,campaignPrice,campaignDate,perPrice,productType)
+                self.__ReceiptRows.append(receiptRow)
+                return
         self.__ReceiptRows.append(receiptRow)
         return
     def GetReceiptRows(self):

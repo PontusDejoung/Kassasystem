@@ -14,3 +14,30 @@ Total:10.5
 Kvitto: 10 2022-11-02-11:05:03
 Melon 11 * 11.5 PerKilo = 126.5
 Total:126.5
+Kvitto: 11 2022-11-02-11:12:41
+Potatis 2.5 * 7.5 PerKilo = 18.75
+Jordgubbar 1.0 * 19.5 PerStyck = 19.5
+Total:38.25
+Kvitto: 12 2022-11-02-12:38:24
+Bananer 1.0 * 9.0 PerKilo = 9.0
+Total:9.0
+Kvitto: 13 2022-11-02-15:30:30
+Potatis 1 * 6.5 PerKilo = 6.5
+Jordgubbar 1 * 19.5 PerStyck = 19.5
+Melon 2 * 11.5 PerKilo = 23.0
+Kebab 5 * 21.5 PerStyck = 107.5
+Bananer 2 * 5.5 PerKilo = 11.0
+Klubba 1 * 4.5 PerStyck = 4.5
+Rotselleri 1 * 15.5 PerStyck = 15.5
+Total:187.5
+Kvitto: 14 2022-11-02-15:33:21
+Potatis 7 * 6.5 PerKilo = 45.5
+Jordgubbar 8 * 19.5 PerStyck = 156.0
+Klubba 1 * 4.5 PerStyck = 4.5
+Total:206.0
+Kvitto: 15 2022-11-02-15:42:01
+Potatis 1 * 6.5 PerKilo = 6.5
+Total:6.5
+Kvitto: 16 2022-11-02-15:42:18
+Potatis 1 * 6.5 PerKilo = 6.5
+Total:6.5
