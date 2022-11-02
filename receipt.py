@@ -4,12 +4,13 @@ from product import Product
 
 
 class ReceiptRow:
-    def __init__(self,productName, count, perPrice,campaignDate,campaignprice):
+    def __init__(self,productName, count, perPrice,campaignDate,campaignprice,productType):
         self.__ProductName = productName
         self.__Count = count
         self.__PerPrice = perPrice
         self.__CampaignDate = campaignDate
         self.__CamapignPrice = campaignprice
+        self.__ProductType = productType
     def AddCount(self,count):
         self.__Count = self.__Count + count
     def GetTotal(self):
@@ -20,6 +21,8 @@ class ReceiptRow:
         return self.__Count
     def GetPerPrice(self):
         return self.__PerPrice
+    def GetProductType(self):
+        return self.__ProductType
     def GetCampaignDate(self):
         return self.__CampaignDate
     def GetCampaignPrice(self):
@@ -38,9 +41,9 @@ class Receipt:
         return sum
     def GetDate(self):
         return self.__Datum
-    def ADD(self,productName:str, count:int, perPrice:float,campaignDate:str,campaignPrice:float):
+    def ADD(self,productName:str, count:int, perPrice:float,campaignDate:str,campaignPrice:float,productType:str):
 
-        receiptRow = ReceiptRow(productName,count,perPrice,campaignDate,campaignPrice)
+        receiptRow = ReceiptRow(productName,count,perPrice,campaignDate,campaignPrice,productType)
         for prduct in self.__ReceiptRows:
             if prduct.GetName() == receiptRow.GetName():
                 prduct.AddCount(count)
@@ -51,7 +54,7 @@ class Receipt:
         end = datetime.strptime(parts[1],"%Y-%m-%d").date()
         currentDate = datetime.now().date()
         if start <= currentDate <= end:
-            receiptRow = ReceiptRow(productName,count,campaignPrice,campaignDate,perPrice)
+            receiptRow = ReceiptRow(productName,count,campaignPrice,campaignDate,perPrice,productType)
             self.__ReceiptRows.append(receiptRow)
             return
             

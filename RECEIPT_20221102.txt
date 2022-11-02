@@ -1,0 +1,16 @@
+Kvitto: 6 2022-11-02-09:21:41
+Bananer 3 * 12.5 PerKilo = 37.5
+Jordgubbar 2 * 13.5 PerStyck = 27.0
+Total:64.5
+Kvitto: 7 2022-11-02-09:50:07
+Melon 1 * 18.5 PerStyck = 18.5
+Total:18.5
+Kvitto: 8 2022-11-02-09:58:42
+Potatis 1 * 9.5 PerKilo = 9.5
+Total:9.5
+Kvitto: 9 2022-11-02-10:39:52
+Potatis 1 * 10.5 PerKilo = 10.5
+Total:10.5
+Kvitto: 10 2022-11-02-11:05:03
+Melon 11 * 11.5 PerKilo = 126.5
+Total:126.5

@@ -1,8 +1,8 @@
 class Product:
-    def __init__(self,productId:str,productName:str, price:float, productType:str,productcampaigndate:str,productcampaignprice:float):
+    def __init__(self,productId:str,productName:str, price:float,productType:str,productcampaigndate:str,productcampaignprice:float):
+        self.__ProductId = productId
         self.__ProductName = productName
         self.__Price = price
-        self.__ProductId = productId
         self.__ProductType = productType
         self.__ProductCampaignDate = productcampaigndate
         self.__ProductCampaignPrice = productcampaignprice
@@ -12,6 +12,8 @@ class Product:
         return self.__ProductId
     def GetPrice(self):
         return self.__Price
+    def GetProductType(self):
+        return self.__ProductType
     def SetNewName(self,newName:str):
         self.__ProductName = newName
     def SetNewPrice(self,newPrice:float):
